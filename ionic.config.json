@@ -1,0 +1,7 @@
+{
+  "name": "SplitBill",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
