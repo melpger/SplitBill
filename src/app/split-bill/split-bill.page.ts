@@ -17,7 +17,12 @@ import { cash } from 'ionicons/icons';
 })
 export class SplitBillPage  {
 
-  splitBillForm: FormGroup;
+  splitBillForm: FormGroup<{
+    itemName: FormControl<string|null>,
+    itemPrice: FormControl<number|null>,
+    paidBy: FormControl<string|null>,
+    splitTo: FormArray<FormControl>
+  }>;
   invalidSubmit = false;
   members: any[] = [];
 
@@ -37,6 +42,10 @@ export class SplitBillPage  {
     });
   }
 
+  trackItems(index: number, itemObject: any) {
+    return itemObject.id;
+  }
+
   onChange(id:string, isChecked: boolean) {
     const emailFormArray = <FormArray>this.splitBillForm.controls['splitTo'];
 
@@ -49,6 +58,7 @@ export class SplitBillPage  {
   }
 
   async ensureInput() {
+    console.log(this.splitBillForm)
     if (this.splitBillForm.valid) {
       this.invalidSubmit = false;
     } else {
@@ -58,9 +68,9 @@ export class SplitBillPage  {
 
   stub() {
     this.members = [
-      {id: 11, name: "Member A", checked:"false"},
-      {id: 22, name: "Member B", checked:"false"},
-      {id: 33, name: "Member C", checked:"false"},
+      {id: 11, name: "Member A"},
+      {id: 22, name: "Member B"},
+      {id: 33, name: "Member C"},
     ]
   }
 

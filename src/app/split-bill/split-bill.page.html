@@ -22,17 +22,17 @@
       <ion-row>
         <ion-col>
           <ion-list [inset]="true">
-            <ion-item>
+            <ion-item [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['itemName'].valid}">
               <ion-input label="Item Name *" type="text" name="itemName" formControlName="itemName" labelPlacement="stacked" placeholder="Enter item name"></ion-input>
             </ion-item>
-            <ion-item>
+            <ion-item [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['itemPrice'].valid}">
               <ion-input label="Price *" type="text" name="itemPrice" formControlName="itemPrice" labelPlacement="stacked" placeholder="Enter price"></ion-input>
             </ion-item>
           </ion-list>
           <ion-list [inset]="true">
-            <ion-select formControlName="paidBy" label-placement="fixed" placeholder="Please select a person" fill="outline">
+            <ion-select [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['paidBy'].valid}" formControlName="paidBy" label-placement="fixed" placeholder="Please select a person" fill="outline">
               <div slot="label">Paid by <ion-text color="danger">*</ion-text></div>
-              <ng-container *ngFor="let member of members;">
+              <ng-container *ngFor="let member of members; index as i; trackBy:trackItems">
                 <ion-select-option value="{{member.id}}">{{member.name}}</ion-select-option>
               </ng-container>
             </ion-select>
@@ -41,7 +41,7 @@
             <ion-list-header>
               <ion-label>Split To</ion-label>
             </ion-list-header>
-            <ng-container *ngFor="let member of members;">
+            <ng-container *ngFor="let member of members; index as i; trackBy:trackItems">
               <ion-item>
                 <ion-checkbox (ionChange)="onChange(member.id, $event.target.checked)" label-placement="end" justify="start">{{member.name}}</ion-checkbox>
               </ion-item>
