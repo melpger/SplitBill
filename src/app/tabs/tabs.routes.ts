@@ -7,9 +7,9 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'tabulation',
         loadComponent: () =>
-          import('../tab1/tab1.page').then((m) => m.Tab1Page),
+          import('../tabulation/tabulation.page').then((m) => m.TabulationPage),
       },
       {
         path: 'split-bill',
@@ -17,9 +17,9 @@ export const routes: Routes = [
           import('../split-bill/split-bill.page').then( m => m.SplitBillPage)
       },
       {
-        path: 'tab3',
+        path: 'add-member',
         loadComponent: () =>
-          import('../tab3/tab3.page').then((m) => m.Tab3Page),
+          import('../add-member/add-member.page').then((m) => m.AddMemberPage),
       },
       {
         path: '',
