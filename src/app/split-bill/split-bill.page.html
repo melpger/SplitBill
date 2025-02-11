@@ -9,55 +9,54 @@
       <ion-title size="large">Split Bill</ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-grid fixed="true">
-    <ion-row>
-      <ion-col>
-        <ion-text color="primary">
-          <h2>Enter Bill Details</h2>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-list [inset]="true">
-          <ion-item>
-            <ion-input label="Item Name" labelPlacement="stacked" placeholder="Enter item name"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-input label="Price" labelPlacement="stacked" placeholder="Enter price"></ion-input>
-          </ion-item>
-        </ion-list>
-        <ion-list [inset]="true">
-          <ion-select label-placement="fixed" placeholder="Please select a person" fill="outline">
-            <div slot="label">Paid by <ion-text color="danger">*</ion-text></div>
-            <ion-select-option value="Member A">Member A</ion-select-option>
-            <ion-select-option value="Member B">Member B</ion-select-option>
-            <ion-select-option value="Member C">Member C</ion-select-option>
-          </ion-select>
-        </ion-list>
-        <ion-list [inset]="true">
-          <ion-list-header>
-            <ion-label>Split To</ion-label>
-          </ion-list-header>
-          <ion-item>
-            <ion-checkbox label-placement="end" justify="start">Member A</ion-checkbox>
-          </ion-item>
-          <ion-item>
-            <ion-checkbox label-placement="end" justify="start">Member B</ion-checkbox>
-          </ion-item>
-          <ion-item>
-            <ion-checkbox label-placement="end" justify="start">Member C</ion-checkbox>
-          </ion-item>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row class="Proceed">
-      <ion-col>
-        <ion-button size="large">
-          Proceed
-          <ion-icon slot="end" name="cash"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <form #form="ngForm" [formGroup]="splitBillForm" (ngSubmit)="ensureInput()">
+    <ion-grid fixed="true">
+      <ion-row>
+        <ion-col>
+          <ion-text color="primary">
+            <h2>Enter Bill Details</h2>
+            <p *ngIf="invalidSubmit" class="error">A field is empty or is in the wrong format.</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-list [inset]="true">
+            <ion-item [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['itemName'].valid}">
+              <ion-input label="Item Name *" type="text" name="itemName" formControlName="itemName" labelPlacement="stacked" placeholder="Enter item name"></ion-input>
+            </ion-item>
+            <ion-item [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['itemPrice'].valid}">
+              <ion-input label="Price *" type="text" name="itemPrice" formControlName="itemPrice" labelPlacement="stacked" placeholder="Enter price"></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-list [inset]="true">
+            <ion-select [ngClass]="{'input-error': invalidSubmit && !splitBillForm.controls['paidBy'].valid}" formControlName="paidBy" label-placement="fixed" placeholder="Please select a person" fill="outline">
+              <div slot="label">Paid by <ion-text color="danger">*</ion-text></div>
+              <ng-container *ngFor="let member of members; index as i; trackBy:trackItems">
+                <ion-select-option value="{{member.id}}">{{member.name}}</ion-select-option>
+              </ng-container>
+            </ion-select>
+          </ion-list>
+          <ion-list [inset]="true">
+            <ion-list-header>
+              <ion-label>Split To</ion-label>
+            </ion-list-header>
+            <ng-container *ngFor="let member of members; index as i; trackBy:trackItems">
+              <ion-item>
+                <ion-checkbox (ionChange)="onChange(member.id, $event.target.checked)" label-placement="end" justify="start">{{member.name}}</ion-checkbox>
+              </ion-item>
+            </ng-container>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+      <ion-row class="Proceed">
+        <ion-col>
+          <ion-button type="submit" size="large">
+            Proceed
+            <ion-icon slot="end" name="cash"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

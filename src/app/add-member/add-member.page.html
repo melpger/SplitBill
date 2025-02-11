@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Members</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Members</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid fixed="true">
+    <ion-row>
+      <ion-col>
+        <ion-text color="primary">
+          <h2>View and Add New Members here!</h2>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>Member List</ion-label>
+            <ion-button click="">
+              <ion-icon name="add-circle"></ion-icon>
+            </ion-button>
+          </ion-list-header>
+          <ng-container *ngFor="let member of members; index as i; trackBy:trackItems">
+            <ion-item class="member">
+              <ion-label>{{member.name}}</ion-label>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
